@@ -74,7 +74,7 @@ jobs:
           git push
 
       - name: Report new repos
-        if: ${{ steps.discover.outputs.new_count != '0' }}
+        if: ${{ steps.discover.outputs.new_count != '0' && steps.discover.outputs.new_count != '' }}
         run: |
           {
             echo "## New upstream repos"
