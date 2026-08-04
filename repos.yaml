@@ -144,6 +144,12 @@ repos:
   tool: ngspice
   pinned: ngspice-46
   added: '2026-08-04'
+- upstream: dreoilin/pygmid
+  fork: osic-tools/pygmid
+  origin: pip
+  tool: pygmid
+  pinned: 1.2.12
+  added: '2026-08-04'
 - upstream: dwarning/VA-Models
   fork: osic-tools/VA-Models
   origin: build_script
@@ -353,12 +359,6 @@ repos:
   origin: pip
   tool: librelane
   pinned: 3.1.0.dev2
-  added: '2026-08-04'
-- upstream: madrasalach/pygmid
-  fork: osic-tools/pygmid
-  origin: pip
-  tool: pygmid
-  pinned: 1.2.12
   added: '2026-08-04'
 - upstream: marzer/tomlplusplus
   fork: osic-tools/tomlplusplus

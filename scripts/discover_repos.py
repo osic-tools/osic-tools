@@ -238,6 +238,12 @@ def pypi_github_repo(package: str) -> str | None:
         # "Sponsor"/"Issues" links point at github.com paths that are not repos.
         if name.lower() in ("sponsors", "issues", "discussions"):
             continue
+        # PyPI metadata goes stale when a project is renamed or transferred.
+        # GitHub redirects a GET, but not the POST that creates a fork, so
+        # record the canonical slug rather than the one in the metadata.
+        data = api_get(f"/repos/{owner}/{name}")
+        if data and data.get("full_name"):
+            return data["full_name"]
         return f"{owner}/{name}"
     return None
 

@@ -89,6 +89,12 @@ def main() -> int:
         if status == 404:
             if args.fork_missing and not args.dry_run:
                 name = fork.split("/", 1)[1]
+                # A renamed or transferred upstream answers a GET with a
+                # redirect, which urllib follows -- but the POST below comes
+                # back as "Moved Permanently" and fails. Resolve it first.
+                st, meta = request("GET", f"/repos/{upstream}")
+                if st == 200 and (meta or {}).get("full_name"):
+                    upstream = meta["full_name"]
                 st, payload = request(
                     "POST", f"/repos/{upstream}/forks",
                     {"organization": org, "name": name, "default_branch_only": True},
