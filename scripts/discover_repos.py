@@ -39,8 +39,9 @@ import yaml
 API = "https://api.github.com"
 
 # Repos referenced only from the runtime "swiss army knife" scripts under
-# skel/ are pulled by the user at runtime, not by the image build.
-SKIP_PATH_PARTS = ("/skel/",)
+# skel/foss/ are pulled by the user at runtime, not by the image build.
+# skel/headless/scripts/ *is* build-time -- it installs the EDA packages.
+SKIP_PATH_PARTS = ("/skel/foss/",)
 
 BUILD_FILE_SUFFIXES = (".sh", ".py", ".yml", ".yaml")
 BUILD_FILE_NAMES = ("Dockerfile",)
@@ -131,9 +132,13 @@ def from_tool_metadata(src: Path) -> dict[str, dict]:
 
 
 def from_build_scripts(src: Path) -> dict[str, dict]:
-    """Scan build scripts and Dockerfiles for GitHub URLs."""
+    """Scan build scripts and Dockerfiles for GitHub URLs.
+
+    Limited to _build/images/, the actual image definitions. Scanning all of
+    _build/ would pick up whatever else happens to sit in that directory.
+    """
     found: dict[str, dict] = {}
-    build = src / "_build"
+    build = src / "_build" / "images"
     if not build.is_dir():
         return found
     for path in build.rglob("*"):
@@ -158,6 +163,106 @@ def from_build_scripts(src: Path) -> dict[str, dict]:
                     norm(slug),
                     {"slug": slug, "origin": "build_script", "tool": None, "pinned": None},
                 )
+    return found
+
+
+PIP_CMD_RE = re.compile(r"(?:^|[/\s])pip3?\s+install\b")
+# name[extra1,extra2]==version -- the form the build pins its packages with.
+PIP_SPEC_RE = re.compile(
+    r"^(?P<name>[A-Za-z0-9][A-Za-z0-9._-]*)"
+    r"(?:\[[^\]]*\])?"
+    r"(?:==(?P<version>[A-Za-z0-9][A-Za-z0-9._+!-]*))?$"
+)
+
+
+def pip_packages(src: Path, rel_paths: list[str]) -> dict[str, str | None]:
+    """Extract {package: pinned version} from pip install lines in a script.
+
+    Line continuations are joined first, since the build lists one package per
+    continued line.
+    """
+    packages: dict[str, str | None] = {}
+    for rel in rel_paths:
+        path = src / rel
+        if not path.is_file():
+            log(f"  ! pip source {rel} not found")
+            continue
+        text = path.read_text(errors="replace")
+        # Join backslash continuations into single logical lines.
+        text = re.sub(r"\\\n", " ", text)
+        for line in text.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("#") or not PIP_CMD_RE.search(stripped):
+                continue
+            # Everything after the last "install" token.
+            tokens = stripped.split()
+            try:
+                start = len(tokens) - 1 - tokens[::-1].index("install")
+            except ValueError:
+                continue
+            for tok in tokens[start + 1:]:
+                tok = tok.strip("\"'")
+                if not tok or tok.startswith("-") or tok.startswith("$"):
+                    continue
+                if tok.startswith(("git+", "http", ".", "/")):
+                    continue  # VCS/URL installs are caught by the URL scan
+                m = PIP_SPEC_RE.match(tok)
+                if not m:
+                    continue
+                name = m.group("name")
+                # A later pin wins; the build shadow-installs a few packages
+                # unpinned before pinning them properly.
+                if packages.get(name) is None:
+                    packages[name] = m.group("version")
+    return packages
+
+
+def pypi_github_repo(package: str) -> str | None:
+    """Find the GitHub repo a PyPI package is published from, if any."""
+    try:
+        with urllib.request.urlopen(
+            f"https://pypi.org/pypi/{package}/json"
+        ) as resp:
+            info = json.load(resp).get("info") or {}
+    except (urllib.error.HTTPError, urllib.error.URLError) as exc:
+        log(f"  ! PyPI {package} -> {exc}")
+        return None
+    urls = [v for v in (info.get("project_urls") or {}).values() if v]
+    if info.get("home_page"):
+        urls.append(info["home_page"])
+    for url in urls:
+        m = GITHUB_URL_RE.match(str(url).rstrip("/"))
+        if not m:
+            continue
+        owner, name = m.group(1), m.group(2)
+        # "Sponsor"/"Issues" links point at github.com paths that are not repos.
+        if name.lower() in ("sponsors", "issues", "discussions"):
+            continue
+        return f"{owner}/{name}"
+    return None
+
+
+def from_pip(src: Path, rel_paths: list[str],
+             overrides: dict[str, str]) -> dict[str, dict]:
+    """Resolve pip-installed EDA packages to their GitHub repositories."""
+    found: dict[str, dict] = {}
+    packages = pip_packages(src, rel_paths)
+    for name in sorted(packages):
+        if name in overrides:
+            slug = overrides[name]
+            if not slug:
+                continue  # explicitly not on GitHub (e.g. lctime, on Codeberg)
+        else:
+            slug = pypi_github_repo(name)
+            if not slug:
+                log(f"  ? {name}: no GitHub repo in PyPI metadata"
+                    f" -- add it to pip_repo_overrides")
+                continue
+        found.setdefault(
+            norm(slug),
+            {"slug": slug, "origin": "pip", "tool": name,
+             "pinned": packages[name]},
+        )
     return found
 
 
@@ -225,6 +330,8 @@ def main() -> int:
     org = doc.get("org", "osic-tools")
     ignore = {norm(s) for s in (doc.get("ignore") or [])}
     overrides = doc.get("fork_name_overrides") or {}
+    pip_sources = doc.get("pip_sources") or []
+    pip_overrides = doc.get("pip_repo_overrides") or {}
     existing = {norm(r["upstream"]): r for r in (doc.get("repos") or [])}
 
     tmp_parent = None
@@ -245,11 +352,25 @@ def main() -> int:
             found.setdefault(key, val)
         log(f"  {len(scripts)} repo(s) referenced")
 
+        # Submodules of the *compiled* sources only. A pip package is installed
+        # as a wheel, so its submodules (test fixtures, CI designs) are never
+        # part of the image.
         log("Reading .gitmodules of each repo ...")
         subs = from_submodules(sorted(v["slug"] for v in found.values()))
         for key, val in subs.items():
             found.setdefault(key, val)
         log(f"  {len(subs)} submodule(s)")
+
+        log("Resolving pip-installed EDA packages via PyPI ...")
+        pips = from_pip(src, pip_sources, pip_overrides)
+        for key, val in pips.items():
+            if key in found:
+                # Already reached another way; keep the richer origin but
+                # record which pip package ships from here.
+                found[key].setdefault("tool", val["tool"])
+            else:
+                found[key] = val
+        log(f"  {len(pips)} package repo(s)")
     finally:
         if tmp_parent:
             shutil.rmtree(tmp_parent, ignore_errors=True)
@@ -299,6 +420,8 @@ def main() -> int:
     doc["source"] = {"repo": src_repo, "ref": src_ref}
     doc["ignore"] = sorted(doc.get("ignore") or [], key=str.lower)
     doc["fork_name_overrides"] = overrides
+    doc["pip_sources"] = pip_sources
+    doc["pip_repo_overrides"] = pip_overrides
     doc["repos"] = repos
 
     header = (
@@ -308,7 +431,7 @@ def main() -> int:
         "# `ignore` and `fork_name_overrides` are preserved, as is any field on an\n"
         "# existing entry that the build does not own.\n"
         "#\n"
-        "# origin:  tool_metadata | build_script | submodule | source | manual\n"
+        "# origin:  tool_metadata | build_script | pip | submodule | source | manual\n"
         "# pinned:  the commit or tag the build checks out, where one is pinned.\n"
     )
     body = yaml.safe_dump(doc, sort_keys=False, width=100, allow_unicode=True)

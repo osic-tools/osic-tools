@@ -28,7 +28,8 @@ The inventory. One entry per upstream repository:
 | --- | --- |
 | `tool_metadata` | listed in `_build/tool_metadata.yml` with a pinned commit |
 | `build_script` | cloned or downloaded by a build script or Dockerfile |
-| `submodule` | a direct submodule of one of the above |
+| `pip` | an EDA tool installed as a pinned pip package |
+| `submodule` | a direct submodule of a compiled source |
 | `source` | the IIC-OSIC-TOOLS repository itself |
 | `manual` | added by hand; the scan will not remove it |
 
@@ -41,11 +42,24 @@ Two hand-maintained keys are preserved across regeneration:
 - **`fork_name_overrides`** — where two upstreams would want the same name in
   the org. `The-OpenROAD-Project/abc` and `YosysHQ/abc` are different projects,
   so they become `or-abc` and `yosys-abc`; OpenROAD-flow-scripts pins its own
-  yosys fork, which becomes `orfs-yosys`.
+  yosys fork, which becomes `orfs-yosys`; and kepler-formal builds against
+  `nanocoh/naja`, a fork of the `najaeda/naja` the pip package ships from, so
+  it becomes `naja-nanocoh`.
+- **`pip_sources`** — the scripts whose `pip install` lines are scanned for EDA
+  tools. Only `install_eda.sh`; the base image's `70_install_from_pip.sh`
+  installs the scientific/support stack (numpy, matplotlib, jupyter, ...),
+  which is not what this mirror is for.
+- **`pip_repo_overrides`** — the GitHub repo for packages whose PyPI metadata
+  has no usable link. An empty value means "not on GitHub" and skips the
+  package.
+
+Submodules are followed for compiled sources only. A pip package arrives as a
+wheel, so its submodules — CI designs, test fixtures — are never part of the
+image and are not mirrored.
 
 Non-GitHub sources are out of scope and are not listed: VACASK (Codeberg),
-Surfer (GitLab), PyOPUS (university server), and the sourceware repositories
-that `riscv-gnu-toolchain` redirects to GitHub mirrors.
+Surfer (GitLab), lctime (Codeberg), PyOPUS (university server), and the
+sourceware repositories that `riscv-gnu-toolchain` redirects to GitHub mirrors.
 
 ## Nightly workflow
 

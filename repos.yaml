@@ -4,7 +4,7 @@
 # `ignore` and `fork_name_overrides` are preserved, as is any field on an
 # existing entry that the build does not own.
 #
-# origin:  tool_metadata | build_script | submodule | source | manual
+# origin:  tool_metadata | build_script | pip | submodule | source | manual
 # pinned:  the commit or tag the build checks out, where one is pinned.
 org: osic-tools
 source:
@@ -20,7 +20,30 @@ fork_name_overrides:
   The-OpenROAD-Project/abc: or-abc
   YosysHQ/abc: yosys-abc
   The-OpenROAD-Project/yosys: orfs-yosys
+  nanocoh/naja: naja-nanocoh
+pip_sources:
+- _build/images/iic-osic-tools/skel/headless/scripts/install_eda.sh
+pip_repo_overrides:
+  cocotbext-ams: VLSIDA/cocotbext-ams
+  fault-dft: efabless/Fault
+  gds2palace: VolkerMuehlhaus/gds2palace_ihp_sg13g2
+  gdsfactory: gdsfactory/gdsfactory
+  setupEM: VolkerMuehlhaus/setupEM
+  lctime: ''
+  blinker: ''
 repos:
+- upstream: aesc-silicon/gdsfill
+  fork: osic-tools/gdsfill
+  origin: pip
+  tool: gdsfill
+  pinned: 0.1.8
+  added: '2026-08-04'
+- upstream: amaranth-lang/amaranth
+  fork: osic-tools/amaranth
+  origin: pip
+  tool: amaranth
+  pinned: 0.5.9
+  added: '2026-08-04'
 - upstream: andresmmera/qucs-s-spar-viewer
   fork: osic-tools/qucs-s-spar-viewer
   origin: submodule
@@ -73,6 +96,12 @@ repos:
   fork: osic-tools/bazel
   origin: build_script
   added: '2026-08-04'
+- upstream: cdelker/schemdraw
+  fork: osic-tools/schemdraw
+  origin: pip
+  tool: schemdraw
+  pinned: '0.23'
+  added: '2026-08-04'
 - upstream: chipsalliance/Surelog
   fork: osic-tools/Surelog
   origin: tool_metadata
@@ -88,6 +117,12 @@ repos:
   origin: tool_metadata
   tool: verible
   pinned: v0.0-4084-gf3e4d98b
+  added: '2026-08-04'
+- upstream: cocotb/cocotb
+  fork: osic-tools/cocotb
+  origin: pip
+  tool: cocotb
+  pinned: 2.0.1
   added: '2026-08-04'
 - upstream: corrosion-rs/corrosion
   fork: osic-tools/corrosion
@@ -129,9 +164,27 @@ repos:
   fork: osic-tools/LinAlgebra
   origin: build_script
   added: '2026-08-04'
+- upstream: efabless/Fault
+  fork: osic-tools/Fault
+  origin: pip
+  tool: fault-dft
+  pinned: 0.9.4
+  added: '2026-08-04'
 - upstream: fmtlib/fmt
   fork: osic-tools/fmt
   origin: submodule
+  added: '2026-08-04'
+- upstream: fossi-foundation/cace
+  fork: osic-tools/cace
+  origin: pip
+  tool: cace
+  pinned: 2.11.0
+  added: '2026-08-04'
+- upstream: fossi-foundation/ciel
+  fork: osic-tools/ciel
+  origin: pip
+  tool: ciel
+  pinned: 2.6.1
   added: '2026-08-04'
 - upstream: gabime/spdlog
   fork: osic-tools/spdlog
@@ -140,6 +193,12 @@ repos:
 - upstream: gatecat/nextpnr-xilinx-meta
   fork: osic-tools/nextpnr-xilinx-meta
   origin: submodule
+  added: '2026-08-04'
+- upstream: gdsfactory/gdsfactory
+  fork: osic-tools/gdsfactory
+  origin: pip
+  tool: gdsfactory
+  pinned: 9.46.0
   added: '2026-08-04'
 - upstream: ghdl/ghdl
   fork: osic-tools/ghdl
@@ -152,6 +211,12 @@ repos:
   origin: tool_metadata
   tool: ghdl-yosys-plugin
   pinned: a45a8fbf19827cd9c4780b00cec9781ef9961293
+  added: '2026-08-04'
+- upstream: gmagno/spyci
+  fork: osic-tools/spyci
+  origin: pip
+  tool: spyci
+  pinned: 1.0.2
   added: '2026-08-04'
 - upstream: gnutools/binutils-gdb
   fork: osic-tools/binutils-gdb
@@ -170,6 +235,12 @@ repos:
   origin: tool_metadata
   tool: gtkwave
   pinned: 7d7b4db9e2f5485afe2aeeab0ad112f5b6a9b94b
+  added: '2026-08-04'
+- upstream: heitzmann/gdspy
+  fork: osic-tools/gdspy
+  origin: pip
+  tool: gdspy
+  pinned: 1.6.13
   added: '2026-08-04'
 - upstream: hneemann/IHP130
   fork: osic-tools/IHP130
@@ -207,9 +278,21 @@ repos:
   fork: osic-tools/ihp-sg13cmos5l
   origin: build_script
   added: '2026-08-04'
-- upstream: iic-jku/IIC-OSIC-TOOLS
+- upstream: iic-jku/iic-osic-tools
   fork: osic-tools/IIC-OSIC-TOOLS
   origin: build_script
+  added: '2026-08-04'
+- upstream: iic-jku/klayout-pex
+  fork: osic-tools/klayout-pex
+  origin: pip
+  tool: klayout-pex
+  pinned: 0.3.12
+  added: '2026-08-04'
+- upstream: iic-jku/klayout-vector-file-export-cli
+  fork: osic-tools/klayout-vector-file-export-cli
+  origin: pip
+  tool: klayout-vector-file-export-cli
+  pinned: '0.5'
   added: '2026-08-04'
 - upstream: iic-jku/osic-multitool
   fork: osic-tools/osic-multitool
@@ -222,6 +305,12 @@ repos:
   origin: tool_metadata
   tool: padring
   pinned: 17fba2638142baa4dc6e2a0b18cb1cd542017e16
+  added: '2026-08-04'
+- upstream: iic-jku/snp2le
+  fork: osic-tools/snp2le
+  origin: pip
+  tool: snp2le
+  pinned: 0.1.5
   added: '2026-08-04'
 - upstream: iic-jku/verilog-covered
   fork: osic-tools/verilog-covered
@@ -259,6 +348,18 @@ repos:
   fork: osic-tools/hyp2mat
   origin: submodule
   added: '2026-08-04'
+- upstream: librelane/librelane
+  fork: osic-tools/librelane
+  origin: pip
+  tool: librelane
+  pinned: 3.1.0.dev2
+  added: '2026-08-04'
+- upstream: madrasalach/pygmid
+  fork: osic-tools/pygmid
+  origin: pip
+  tool: pygmid
+  pinned: 1.2.12
+  added: '2026-08-04'
 - upstream: marzer/tomlplusplus
   fork: osic-tools/tomlplusplus
   origin: submodule
@@ -277,8 +378,14 @@ repos:
   fork: osic-tools/sky130_leo_ip__ota5t
   origin: build_script
   added: '2026-08-04'
-- upstream: nanocoh/naja
+- upstream: najaeda/naja
   fork: osic-tools/naja
+  origin: pip
+  tool: najaeda
+  pinned: 0.7.17
+  added: '2026-08-04'
+- upstream: nanocoh/naja
+  fork: osic-tools/naja-nanocoh
   origin: submodule
   added: '2026-08-04'
 - upstream: nickg/nvc
@@ -291,6 +398,24 @@ repos:
   fork: osic-tools/json
   origin: submodule
   added: '2026-08-04'
+- upstream: nunobrum/spicelib
+  fork: osic-tools/spicelib
+  origin: pip
+  tool: spicelib
+  pinned: 1.6.3
+  added: '2026-08-04'
+- upstream: olofk/edalize
+  fork: osic-tools/edalize
+  origin: pip
+  tool: edalize
+  pinned: 0.6.8
+  added: '2026-08-04'
+- upstream: olofk/fusesoc
+  fork: osic-tools/fusesoc
+  origin: pip
+  tool: fusesoc
+  pinned: 2.4.6
+  added: '2026-08-04'
 - upstream: povik/yosys-slang
   fork: osic-tools/sv-elab
   origin: tool_metadata
@@ -302,6 +427,18 @@ repos:
   origin: tool_metadata
   tool: bender
   pinned: bb5f891c2ffff099be03d3862f94f2516f432c18
+  added: '2026-08-04'
+- upstream: PyHDI/Pyverilog
+  fork: osic-tools/Pyverilog
+  origin: pip
+  tool: pyverilog
+  pinned: 1.3.0
+  added: '2026-08-04'
+- upstream: pyuvm/pyuvm
+  fork: osic-tools/pyuvm
+  origin: pip
+  tool: pyuvm
+  pinned: 4.0.1
   added: '2026-08-04'
 - upstream: Qucs/ADMS
   fork: osic-tools/ADMS
@@ -374,6 +511,30 @@ repos:
   origin: tool_metadata
   tool: xcircuit
   pinned: 9051f4804fe8f6386272085f604c9238e5ac0b05
+  added: '2026-08-04'
+- upstream: santihofi/chipify
+  fork: osic-tools/chipify
+  origin: pip
+  tool: chipify
+  pinned: 0.2.2
+  added: '2026-08-04'
+- upstream: sbrunner/jsonschema2md
+  fork: osic-tools/jsonschema2md
+  origin: pip
+  tool: jsonschema2md
+  pinned: 1.7.0
+  added: '2026-08-04'
+- upstream: scikit-rf/scikit-rf
+  fork: osic-tools/scikit-rf
+  origin: pip
+  tool: scikit-rf
+  pinned: 2.0.1
+  added: '2026-08-04'
+- upstream: siliconcompiler/siliconcompiler
+  fork: osic-tools/siliconcompiler
+  origin: pip
+  tool: siliconcompiler
+  pinned: 0.38.2
   added: '2026-08-04'
 - upstream: SRI-CSL/yices2
   fork: osic-tools/yices2
@@ -485,19 +646,39 @@ repos:
   tool: gds3d
   pinned: dc6d965225c9f5ed2a6faefb7ea30665429060fe
   added: '2026-08-04'
+- upstream: UCSBarchlab/PyRTL
+  fork: osic-tools/PyRTL
+  origin: pip
+  tool: pyrtl
+  pinned: 1.0.2
+  added: '2026-08-04'
 - upstream: verilator/verilator
   fork: osic-tools/verilator
   origin: tool_metadata
   tool: verilator
   pinned: v5.050
   added: '2026-08-04'
+- upstream: VLSIDA/cocotbext-ams
+  fork: osic-tools/cocotbext-ams
+  origin: pip
+  tool: cocotbext-ams
+  pinned: 0.1.0
+  added: '2026-08-04'
 - upstream: VolkerMuehlhaus/gds2palace_ihp_sg13g2
   fork: osic-tools/gds2palace_ihp_sg13g2
   origin: submodule
   added: '2026-08-04'
+  tool: gds2palace
+  pinned: 0.3.0
 - upstream: VolkerMuehlhaus/openems_ihp_sg13g2
   fork: osic-tools/openems_ihp_sg13g2
   origin: submodule
+  added: '2026-08-04'
+- upstream: VolkerMuehlhaus/setupEM
+  fork: osic-tools/setupEM
+  origin: pip
+  tool: setupEM
+  pinned: 0.1.22
   added: '2026-08-04'
 - upstream: Xyce/Xyce
   fork: osic-tools/Xyce
