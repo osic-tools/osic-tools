@@ -1,0 +1,113 @@
+name: nightly
+
+# Nightly maintenance of the osic-tools mirror org:
+#   1. re-derive repos.yaml from the IIC-OSIC-TOOLS build and commit any change
+#   2. fast-forward every fork in the org to its upstream
+#
+# The sync job needs a token that can write to the org's repositories. The
+# built-in GITHUB_TOKEN is scoped to this repository alone, so an org-scoped
+# PAT (or GitHub App token) must be stored as the OSIC_TOOLS_TOKEN secret.
+# Fine-grained PAT permissions: Contents read+write, Metadata read, plus
+# Administration read+write if the fork_missing input is used.
+
+on:
+  schedule:
+    # 03:17 UTC nightly. Off the hour because GitHub delays or drops cron
+    # runs scheduled at peak times.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      fork_missing:
+        description: "Create forks for repos.yaml entries that have none yet"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Report only, change nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    name: Update repos.yaml
+    runs-on: ubuntu-latest
+    outputs:
+      new_count: ${{ steps.discover.outputs.new_count }}
+      new_repos: ${{ steps.discover.outputs.new_repos }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --disable-pip-version-check pyyaml
+
+      - name: Discover repos from the IIC-OSIC-TOOLS build
+        id: discover
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/discover_repos.py --repos-yaml repos.yaml
+
+      - name: Commit changes
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if git diff --quiet -- repos.yaml; then
+            echo "repos.yaml unchanged"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "${{ steps.discover.outputs.new_count }}" != "0" ]; then
+            msg="Add ${{ steps.discover.outputs.new_count }} new upstream repo(s)"
+          else
+            msg="Refresh repos.yaml from upstream build"
+          fi
+          git add repos.yaml
+          git commit -m "$msg" -m "${{ steps.discover.outputs.new_repos }}"
+          git push
+
+      - name: Report new repos
+        if: ${{ steps.discover.outputs.new_count != '0' }}
+        run: |
+          {
+            echo "## New upstream repos"
+            echo
+            for r in ${{ steps.discover.outputs.new_repos }}; do
+              echo "- \`$r\`"
+            done
+            echo
+            echo "Not forked automatically. Re-run this workflow with"
+            echo "\`fork_missing\` to create them."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  sync:
+    name: Sync forks with upstream
+    needs: discover
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Pick up a repos.yaml the discover job just committed.
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --disable-pip-version-check pyyaml
+
+      - name: Fast-forward every fork to its upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.OSIC_TOOLS_TOKEN }}
+        run: |
+          args=""
+          [ "${{ inputs.dry_run }}" = "true" ] && args="$args --dry-run"
+          [ "${{ inputs.fork_missing }}" = "true" ] && args="$args --fork-missing"
+          python scripts/sync_forks.py --repos-yaml repos.yaml $args
