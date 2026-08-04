@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Harald Pretl
+# Johannes Kepler University, Department for Integrated Circuits
+# SPDX-License-Identifier: Apache-2.0
 """Fast-forward every fork listed in repos.yaml to its upstream.
 
 Uses the GitHub "merge upstream" endpoint, which fast-forwards a fork's

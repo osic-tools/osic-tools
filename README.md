@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Harald Pretl
+Johannes Kepler University, Department for Integrated Circuits
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # osic-tools
 
 Bookkeeping for the `osic-tools` mirror organisation, which holds a fork of
@@ -112,3 +118,35 @@ python scripts/sync_forks.py --fork-missing
 GitHub rate-limits fork creation at roughly 60–80 per hour, so a large
 `--fork-missing` run will hit `HTTP 403: was submitted too quickly` and needs to
 be repeated later. Re-running is safe — existing forks are skipped.
+
+## Contributing
+
+**All changes to this repository must be made as the GitHub user `hpretl`.**
+The nightly workflow is the one exception: it commits `repos.yaml` as
+`github-actions[bot]`.
+
+Before committing, make sure the local identity is right:
+
+```bash
+git config user.name  "Harald Pretl"
+git config user.email "harald@pretl.eu"
+```
+
+Every source file carries the SPDX header below; add it to anything new.
+
+```
+# SPDX-FileCopyrightText: 2026 Harald Pretl
+# Johannes Kepler University, Department for Integrated Circuits
+# SPDX-License-Identifier: Apache-2.0
+```
+
+## License
+
+Copyright 2026 Harald Pretl, Johannes Kepler University, Department for
+Integrated Circuits.
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the
+full text, or <http://www.apache.org/licenses/LICENSE-2.0>.
+
+This applies to the contents of *this* repository only. Every mirrored fork in
+the organisation keeps the license of its own upstream project.
