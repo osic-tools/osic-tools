@@ -11,8 +11,10 @@ name: nightly
 # The sync job needs a token that can write to the org's repositories. The
 # built-in GITHUB_TOKEN is scoped to this repository alone, so an org-scoped
 # PAT (or GitHub App token) must be stored as the OSIC_TOOLS_TOKEN secret.
-# Fine-grained PAT permissions: Contents read+write, Metadata read, plus
-# Administration read+write if the fork_missing input is used.
+# Fine-grained PAT permissions: Contents read+write, Metadata read, Workflows
+# read+write (upstream commits that touch .github/workflows/ are refused
+# without it), plus Administration read+write if the fork_missing input is
+# used. A classic PAT needs the `repo` *and* `workflow` scopes.
 
 on:
   schedule:
