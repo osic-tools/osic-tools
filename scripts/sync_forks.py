@@ -20,7 +20,10 @@ Usage:
 
 GITHUB_TOKEN must be able to write to the org's repositories. The default
 GITHUB_TOKEN of an Actions run is scoped to its own repository only, so a PAT
-or GitHub App token is required.
+or GitHub App token is required. It also needs workflow write permission
+(`workflow` scope on a classic PAT, Workflows read+write on a fine-grained
+one): a fast-forward carries the upstream commits into the fork, and GitHub
+refuses those that touch .github/workflows/ without it.
 """
 
 from __future__ import annotations
@@ -147,6 +150,13 @@ def main() -> int:
             counts["diverged"] += 1
             problems.append(f"{fork}: diverged from upstream")
         else:
+            if status == 422 and "workflow" in msg:
+                # The fast-forward would write upstream commits touching
+                # .github/workflows/, which the token may not do. The fork
+                # stays behind until the token is fixed, so this is a real
+                # error rather than something to skip over.
+                msg += ("  -- OSIC_TOOLS_TOKEN needs the `workflow` scope "
+                        "(classic PAT) or Workflows read+write (fine-grained)")
             log(f"ERROR     {fork}: HTTP {status} {msg}")
             counts["error"] += 1
             problems.append(f"{fork}: HTTP {status} {msg}")
