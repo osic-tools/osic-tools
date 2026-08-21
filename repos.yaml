@@ -132,6 +132,10 @@ repos:
   fork: osic-tools/corrosion
   origin: submodule
   added: '2026-08-04'
+- upstream: cygwin/cygwin
+  fork: osic-tools/cygwin
+  origin: submodule
+  added: '2026-08-21'
 - upstream: d-m-bailey/cvc
   fork: osic-tools/cvc
   origin: tool_metadata
@@ -232,6 +236,10 @@ repos:
   fork: osic-tools/binutils-gdb
   origin: build_script
   added: '2026-08-04'
+- upstream: gnutools/glibc
+  fork: osic-tools/glibc
+  origin: submodule
+  added: '2026-08-21'
 - upstream: google/googletest
   fork: osic-tools/googletest
   origin: build_script
@@ -358,6 +366,10 @@ repos:
   fork: osic-tools/hyp2mat
   origin: submodule
   added: '2026-08-04'
+- upstream: kraj/musl
+  fork: osic-tools/musl
+  origin: submodule
+  added: '2026-08-21'
 - upstream: librelane/librelane
   fork: osic-tools/librelane
   origin: pip
