@@ -432,6 +432,10 @@ repos:
   tool: fusesoc
   pinned: 2.4.6
   added: '2026-08-04'
+- upstream: picolibc/picolibc
+  fork: osic-tools/picolibc
+  origin: submodule
+  added: '2026-08-25'
 - upstream: povik/yosys-slang
   fork: osic-tools/sv-elab
   origin: tool_metadata
