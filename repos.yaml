@@ -72,7 +72,7 @@ repos:
   fork: osic-tools/OpenVAF
   origin: tool_metadata
   tool: openvaf
-  pinned: c592eed6f7552f979e72c5f6d129a9052713e052
+  pinned: 5ed9e63afe70ac95129a78af7b3732e7d431b1e5
   added: '2026-08-04'
 - upstream: AsFigo/svck
   fork: osic-tools/svck
@@ -84,7 +84,7 @@ repos:
   fork: osic-tools/uv
   origin: tool_metadata
   tool: uv
-  pinned: 0.11.32
+  pinned: 0.12.5
   added: '2026-08-04'
 - upstream: audemard/glucose
   fork: osic-tools/glucose
@@ -94,7 +94,7 @@ repos:
   fork: osic-tools/palace
   origin: tool_metadata
   tool: palace
-  pinned: c531cf3e57932ee7118a816a820bd7a33bbdea4a
+  pinned: 71cf12c267ece4e875bd4e1ad4f9fae85f83b709
   added: '2026-08-04'
 - upstream: bazelbuild/bazel
   fork: osic-tools/bazel
@@ -110,7 +110,7 @@ repos:
   fork: osic-tools/Surelog
   origin: tool_metadata
   tool: surelog
-  pinned: v1.86
+  pinned: v1.87
   added: '2026-08-04'
 - upstream: chipsalliance/UHDM
   fork: osic-tools/UHDM
@@ -120,7 +120,7 @@ repos:
   fork: osic-tools/verible
   origin: tool_metadata
   tool: verible
-  pinned: v0.0-4084-gf3e4d98b
+  pinned: v0.0-4148-g1ea007ec
   added: '2026-08-04'
 - upstream: cocotb/cocotb
   fork: osic-tools/cocotb
@@ -150,7 +150,7 @@ repos:
   fork: osic-tools/ngspice-sf-mirror
   origin: tool_metadata
   tool: ngspice
-  pinned: ngspice-46
+  pinned: ngspice-47
   added: '2026-08-04'
 - upstream: dreoilin/pygmid
   fork: osic-tools/pygmid
@@ -166,10 +166,14 @@ repos:
   fork: osic-tools/FasterCap
   origin: build_script
   added: '2026-08-04'
+  tool: rftk-fastercap
+  pinned: b42179a8fdd25ab42fe45527282b4a738d7e7f87
 - upstream: ediloren/FastHenry2
   fork: osic-tools/FastHenry2
   origin: build_script
   added: '2026-08-04'
+  tool: rftk-fasthenry
+  pinned: 363e43ed57ad3b9affa11cba5a86624fad0edaa9
 - upstream: ediloren/Geometry
   fork: osic-tools/Geometry
   origin: build_script
@@ -212,13 +216,13 @@ repos:
   fork: osic-tools/gdsfactory
   origin: pip
   tool: gdsfactory
-  pinned: 9.46.0
+  pinned: 9.48.0
   added: '2026-08-04'
 - upstream: ghdl/ghdl
   fork: osic-tools/ghdl
   origin: tool_metadata
   tool: ghdl
-  pinned: eef37abdcce58a8aa9a76cfba43e76f5d4da50a4
+  pinned: d71175c7c983b3a851acfa3be0d493e95e3dafba
   added: '2026-08-04'
 - upstream: ghdl/ghdl-yosys-plugin
   fork: osic-tools/ghdl-yosys-plugin
@@ -252,7 +256,7 @@ repos:
   fork: osic-tools/gtkwave
   origin: tool_metadata
   tool: gtkwave
-  pinned: 7d7b4db9e2f5485afe2aeeab0ad112f5b6a9b94b
+  pinned: 132a0863a5ce97c275fd35f1c88cd7cc4f2b4ca9
   added: '2026-08-04'
 - upstream: heitzmann/gdspy
   fork: osic-tools/gdspy
@@ -274,7 +278,7 @@ repos:
   fork: osic-tools/LibMan
   origin: tool_metadata
   tool: libman
-  pinned: 40593af1fb99f24bdf7a105d72a8ed6f29b31b65
+  pinned: 84c5974a647c5d7d5a9ddc3bae7b6396e008ce33
   added: '2026-08-04'
 - upstream: IHP-GmbH/pycell4klayout-api
   fork: osic-tools/pycell4klayout-api
@@ -304,7 +308,7 @@ repos:
   fork: osic-tools/klayout-pex
   origin: pip
   tool: klayout-pex
-  pinned: 0.3.12
+  pinned: 0.3.15
   added: '2026-08-04'
 - upstream: iic-jku/klayout-vector-file-export-cli
   fork: osic-tools/klayout-vector-file-export-cli
@@ -328,7 +332,7 @@ repos:
   fork: osic-tools/snp2le
   origin: pip
   tool: snp2le
-  pinned: 0.1.5
+  pinned: 0.1.8
   added: '2026-08-04'
 - upstream: iic-jku/verilog-covered
   fork: osic-tools/verilog-covered
@@ -354,13 +358,13 @@ repos:
   fork: osic-tools/kepler-formal
   origin: tool_metadata
   tool: kepler-formal
-  pinned: 84c6c22cbe121045c5cc95322b3b3eec82c61dd5
+  pinned: a1a56e944140b9303b169eabd191ec9c92a4af7a
   added: '2026-08-04'
 - upstream: KLayout/klayout
   fork: osic-tools/klayout
   origin: tool_metadata
   tool: klayout
-  pinned: v0.30.9
+  pinned: v0.30.11
   added: '2026-08-04'
 - upstream: koendv/hyp2mat
   fork: osic-tools/hyp2mat
@@ -374,7 +378,7 @@ repos:
   fork: osic-tools/librelane
   origin: pip
   tool: librelane
-  pinned: 3.1.0.dev2
+  pinned: 3.1.0.dev3
   added: '2026-08-04'
 - upstream: marzer/tomlplusplus
   fork: osic-tools/tomlplusplus
@@ -388,7 +392,7 @@ repos:
   fork: osic-tools/slang
   origin: tool_metadata
   tool: slang
-  pinned: 3c984ff9e007b8f9fcd9ee528c0d90ca47e02e74
+  pinned: 4196d4ce4fc47fa130f2b98d90dced229c636497
   added: '2026-08-04'
 - upstream: mole99/ota-5t
   fork: osic-tools/sky130_leo_ip__ota5t
@@ -398,7 +402,7 @@ repos:
   fork: osic-tools/naja
   origin: pip
   tool: najaeda
-  pinned: 0.7.17
+  pinned: 0.7.20
   added: '2026-08-04'
 - upstream: nanocoh/naja
   fork: osic-tools/naja-nanocoh
@@ -408,12 +412,16 @@ repos:
   fork: osic-tools/nvc
   origin: tool_metadata
   tool: nvc
-  pinned: r1.22.0
+  pinned: r1.22.1
   added: '2026-08-04'
 - upstream: nlohmann/json
   fork: osic-tools/json
   origin: submodule
   added: '2026-08-04'
+- upstream: novnc/noVNC
+  fork: osic-tools/noVNC
+  origin: build_script
+  added: '2026-08-26'
 - upstream: nunobrum/spicelib
   fork: osic-tools/spicelib
   origin: pip
@@ -440,13 +448,13 @@ repos:
   fork: osic-tools/sv-elab
   origin: tool_metadata
   tool: slang-yosys-plugin
-  pinned: 3dddccd478618d68f8a5e160fb4b5783c4da35d4
+  pinned: ce38835520fbdf422304a6f6a2f1c437c3ba98c2
   added: '2026-08-04'
 - upstream: pulp-platform/bender
   fork: osic-tools/bender
   origin: tool_metadata
   tool: bender
-  pinned: bb5f891c2ffff099be03d3862f94f2516f432c18
+  pinned: 97b599b2d3cb433d204cf71b8583f6ec2825d509
   added: '2026-08-04'
 - upstream: PyHDI/Pyverilog
   fork: osic-tools/Pyverilog
@@ -478,13 +486,13 @@ repos:
   fork: osic-tools/riscv-gnu-toolchain
   origin: tool_metadata
   tool: riscv-gnu-toolchain
-  pinned: 2026.07.15
+  pinned: 2026.08.24
   added: '2026-08-04'
 - upstream: riscv-software-src/riscv-isa-sim
   fork: osic-tools/riscv-isa-sim
   origin: tool_metadata
   tool: spike
-  pinned: 520a5f185083ac3c97b751501dfac02a6c1f5970
+  pinned: 793f80cf78c74aa845853bcd11c94681c4fd6564
   added: '2026-08-04'
 - upstream: riscv-software-src/riscv-pk
   fork: osic-tools/riscv-pk
@@ -506,7 +514,7 @@ repos:
   fork: osic-tools/magic
   origin: tool_metadata
   tool: magic
-  pinned: 8.3.678
+  pinned: 8.3.681
   added: '2026-08-04'
 - upstream: rtimothyedwards/netgen
   fork: osic-tools/netgen
@@ -518,7 +526,7 @@ repos:
   fork: osic-tools/open-pdks
   origin: tool_metadata
   tool: open_pdks
-  pinned: f6eeac7dad085ffcc829ccfd721f7b4ce39edcf7
+  pinned: 026824c7969ce6f4fc9678e6ca04b0a06a596c4b
   added: '2026-08-04'
 - upstream: RTimothyEdwards/qflow
   fork: osic-tools/qflow
@@ -548,13 +556,13 @@ repos:
   fork: osic-tools/scikit-rf
   origin: pip
   tool: scikit-rf
-  pinned: 2.0.1
+  pinned: 2.1.0
   added: '2026-08-04'
 - upstream: siliconcompiler/siliconcompiler
   fork: osic-tools/siliconcompiler
   origin: pip
   tool: siliconcompiler
-  pinned: 0.38.2
+  pinned: 0.38.5
   added: '2026-08-04'
 - upstream: SRI-CSL/yices2
   fork: osic-tools/yices2
@@ -566,7 +574,7 @@ repos:
   fork: osic-tools/xschem
   origin: tool_metadata
   tool: xschem
-  pinned: b69f793f83383d4e59cdb66aa431375b5a9966cc
+  pinned: 219167e2a6eddfbed510be8b4ca93f9f53766896
   added: '2026-08-04'
 - upstream: StefanSchippers/xschem-gaw
   fork: osic-tools/xschem-gaw
@@ -578,7 +586,7 @@ repos:
   fork: osic-tools/iverilog
   origin: tool_metadata
   tool: iverilog
-  pinned: eda9fdcd13d7566b9aab29a8a098e2f4189ea3f3
+  pinned: 64f13540a6ec8122c16b10efa220ed0eff4686f9
   added: '2026-08-04'
 - upstream: stineje/charlib
   fork: osic-tools/CharLib
@@ -622,7 +630,7 @@ repos:
   fork: osic-tools/spicebind
   origin: tool_metadata
   tool: spicebind
-  pinned: a63974c81391c10c0700244c32c0b7733ae711b1
+  pinned: 382f58f1824105f6341825b863ee3c6ae07b3e38
   added: '2026-08-04'
 - upstream: thliebig/AppCSXCAD
   fork: osic-tools/AppCSXCAD
@@ -648,7 +656,7 @@ repos:
   fork: osic-tools/openEMS-Project
   origin: tool_metadata
   tool: openems
-  pinned: 3e57150aa7c22b6db7c96656d5e4fe014cf43f8d
+  pinned: 84703e254dafe84ed2f06056e5f105067b8f1910
   added: '2026-08-04'
 - upstream: thliebig/QCSXCAD
   fork: osic-tools/QCSXCAD
@@ -657,7 +665,7 @@ repos:
 - upstream: trilinos/Trilinos
   fork: osic-tools/Trilinos
   origin: tool_metadata
-  tool: trilinos
+  tool: xyce-trilinos
   pinned: trilinos-release-12-12-1
   added: '2026-08-04'
 - upstream: trilomix/GDS3D
@@ -670,7 +678,7 @@ repos:
   fork: osic-tools/PyRTL
   origin: pip
   tool: pyrtl
-  pinned: 1.0.2
+  pinned: 1.0.3
   added: '2026-08-04'
 - upstream: verilator/verilator
   fork: osic-tools/verilator
@@ -698,7 +706,7 @@ repos:
   fork: osic-tools/setupEM
   origin: pip
   tool: setupEM
-  pinned: 0.1.22
+  pinned: 0.3.15
   added: '2026-08-04'
 - upstream: Xyce/Xyce
   fork: osic-tools/Xyce
@@ -713,8 +721,8 @@ repos:
 - upstream: YosysHQ/eqy
   fork: osic-tools/eqy
   origin: tool_metadata
-  tool: yosys_eqy
-  pinned: v0.67
+  tool: yosys-eqy
+  pinned: v0.68
   added: '2026-08-04'
 - upstream: YosysHQ/icestorm
   fork: osic-tools/icestorm
@@ -725,24 +733,34 @@ repos:
 - upstream: YosysHQ/mcy
   fork: osic-tools/mcy
   origin: tool_metadata
-  tool: yosys_mcy
-  pinned: v0.67
+  tool: yosys-mcy
+  pinned: v0.68
   added: '2026-08-04'
 - upstream: YosysHQ/nextpnr
   fork: osic-tools/nextpnr
   origin: tool_metadata
   tool: nextpnr
-  pinned: bf63271fe75f59e0fecd1b5220e78034597027a1
+  pinned: b17408e29024fe1870a74ef192e2e1f8246e73a5
   added: '2026-08-04'
 - upstream: YosysHQ/nextpnr-tests
   fork: osic-tools/nextpnr-tests
   origin: submodule
   added: '2026-08-04'
+- upstream: YosysHQ/prjtrellis
+  fork: osic-tools/prjtrellis
+  origin: tool_metadata
+  tool: prjtrellis
+  pinned: 3afe7b52b30f4b4417ee98f03016767a502006e3
+  added: '2026-08-26'
+- upstream: YosysHQ/prjtrellis-db
+  fork: osic-tools/prjtrellis-db
+  origin: submodule
+  added: '2026-08-26'
 - upstream: YosysHQ/sby
   fork: osic-tools/sby
   origin: tool_metadata
-  tool: yosys_sby
-  pinned: v0.67
+  tool: yosys-sby
+  pinned: v0.68
   added: '2026-08-04'
 - upstream: YosysHQ/symfpu
   fork: osic-tools/symfpu
@@ -752,11 +770,11 @@ repos:
   fork: osic-tools/yosys
   origin: tool_metadata
   tool: yosys
-  pinned: v0.67
+  pinned: v0.68
   added: '2026-08-04'
 - upstream: zachjs/sv2v
   fork: osic-tools/sv2v
   origin: tool_metadata
   tool: sv2v
-  pinned: 6662fa5da71f87797598060f17728b284b99a9fc
+  pinned: 493a88f930802da68f592c192ec86991eaf95c49
   added: '2026-08-04'
